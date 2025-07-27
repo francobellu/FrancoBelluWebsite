@@ -1,4 +1,0 @@
-module Instrumentation {
-    header "/Users/francobellu/Documents/ClaudeProjects/claudeWebpage/FrancoBelluWebsite/.build/arm64-apple-macosx/debug/Instrumentation.build/Instrumentation-Swift.h"
-    requires objc
-}

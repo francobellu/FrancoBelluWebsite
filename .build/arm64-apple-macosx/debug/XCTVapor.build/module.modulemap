@@ -1,4 +1,0 @@
-module XCTVapor {
-    header "/Users/francobellu/Documents/ClaudeProjects/claudeWebpage/FrancoBelluWebsite/.build/arm64-apple-macosx/debug/XCTVapor.build/XCTVapor-Swift.h"
-    requires objc
-}

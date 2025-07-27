@@ -1,4 +1,0 @@
-module ConcurrencyHelpers {
-    header "/Users/francobellu/Documents/ClaudeProjects/claudeWebpage/FrancoBelluWebsite/.build/arm64-apple-macosx/debug/ConcurrencyHelpers.build/ConcurrencyHelpers-Swift.h"
-    requires objc
-}

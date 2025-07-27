@@ -1,4 +1,0 @@
-module ConsoleKitCommands {
-    header "/Users/francobellu/Documents/ClaudeProjects/claudeWebpage/FrancoBelluWebsite/.build/arm64-apple-macosx/debug/ConsoleKitCommands.build/ConsoleKitCommands-Swift.h"
-    requires objc
-}

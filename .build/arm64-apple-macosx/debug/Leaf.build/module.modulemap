@@ -1,4 +1,0 @@
-module Leaf {
-    header "/Users/francobellu/Documents/ClaudeProjects/claudeWebpage/FrancoBelluWebsite/.build/arm64-apple-macosx/debug/Leaf.build/Leaf-Swift.h"
-    requires objc
-}

@@ -1,4 +1,0 @@
-module InternalCollectionsUtilities {
-    header "/Users/francobellu/Documents/ClaudeProjects/claudeWebpage/FrancoBelluWebsite/.build/arm64-apple-macosx/debug/InternalCollectionsUtilities.build/InternalCollectionsUtilities-Swift.h"
-    requires objc
-}

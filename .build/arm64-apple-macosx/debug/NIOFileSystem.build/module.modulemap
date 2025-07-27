@@ -1,4 +1,0 @@
-module NIOFileSystem {
-    header "/Users/francobellu/Documents/ClaudeProjects/claudeWebpage/FrancoBelluWebsite/.build/arm64-apple-macosx/debug/NIOFileSystem.build/NIOFileSystem-Swift.h"
-    requires objc
-}

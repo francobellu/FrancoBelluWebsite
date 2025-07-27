@@ -1,4 +1,0 @@
-module Logging {
-    header "/Users/francobellu/Documents/ClaudeProjects/claudeWebpage/FrancoBelluWebsite/.build/arm64-apple-macosx/debug/Logging.build/Logging-Swift.h"
-    requires objc
-}

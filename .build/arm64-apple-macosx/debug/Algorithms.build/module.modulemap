@@ -1,4 +1,0 @@
-module Algorithms {
-    header "/Users/francobellu/Documents/ClaudeProjects/claudeWebpage/FrancoBelluWebsite/.build/arm64-apple-macosx/debug/Algorithms.build/Algorithms-Swift.h"
-    requires objc
-}

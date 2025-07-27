@@ -1,4 +1,0 @@
-module NIOPosix {
-    header "/Users/francobellu/Documents/ClaudeProjects/claudeWebpage/FrancoBelluWebsite/.build/arm64-apple-macosx/debug/NIOPosix.build/NIOPosix-Swift.h"
-    requires objc
-}

@@ -1,4 +1,0 @@
-module _CertificateInternals {
-    header "/Users/francobellu/Documents/ClaudeProjects/claudeWebpage/FrancoBelluWebsite/.build/arm64-apple-macosx/debug/_CertificateInternals.build/_CertificateInternals-Swift.h"
-    requires objc
-}
