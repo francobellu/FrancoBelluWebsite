@@ -1,0 +1,11 @@
+{
+  "": {
+    "swift-dependencies": "/Users/francobellu/Documents/ClaudeProjects/claudeWebpage/FrancoBelluWebsite/.build/arm64-apple-macosx/debug/NIOFileSystem.build/master.swiftdeps"
+  },
+  "/Users/francobellu/Documents/ClaudeProjects/claudeWebpage/FrancoBelluWebsite/.build/checkouts/swift-nio/Sources/_NIOFileSystemExported/Exports.swift": {
+    "dependencies": "/Users/francobellu/Documents/ClaudeProjects/claudeWebpage/FrancoBelluWebsite/.build/arm64-apple-macosx/debug/NIOFileSystem.build/Exports.d",
+    "object": "/Users/francobellu/Documents/ClaudeProjects/claudeWebpage/FrancoBelluWebsite/.build/arm64-apple-macosx/debug/NIOFileSystem.build/Exports.swift.o",
+    "swiftmodule": "/Users/francobellu/Documents/ClaudeProjects/claudeWebpage/FrancoBelluWebsite/.build/arm64-apple-macosx/debug/NIOFileSystem.build/Exports~partial.swiftmodule",
+    "swift-dependencies": "/Users/francobellu/Documents/ClaudeProjects/claudeWebpage/FrancoBelluWebsite/.build/arm64-apple-macosx/debug/NIOFileSystem.build/Exports.swiftdeps"
+  }
+}

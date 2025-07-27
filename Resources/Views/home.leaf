@@ -1,0 +1,96 @@
+#extend("base"):
+    #export("title", "Franco Bellu - Personal Website")
+    #export("body"):
+        <header class="header animated">
+            <div class="profile-img">FB</div>
+            <h1>#(name)</h1>
+            <p>#(title)</p>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <span>📧</span>
+                    <span>#(email)</span>
+                </div>
+                <div class="contact-item">
+                    <span>📱</span>
+                    <span>#(phone)</span>
+                </div>
+                <div class="contact-item">
+                    <span>📍</span>
+                    <span>#(location)</span>
+                </div>
+            </div>
+        </header>
+
+        <section class="section animated">
+            <h2>About Me</h2>
+            <p>#(about)</p>
+        </section>
+
+        <section class="section animated">
+            <h2>Skills & Expertise</h2>
+            <div class="skills-grid">
+                #for(skill in skills):
+                    <div class="skill-item">
+                        <h3>#(skill.name)</h3>
+                        <p>#(skill.description)</p>
+                    </div>
+                #endfor
+            </div>
+        </section>
+
+        <section class="section animated">
+            <h2>Experience</h2>
+            #for(experience in experiences):
+                <div class="experience-item">
+                    <h3>#(experience.title)</h3>
+                    <div class="company">#(experience.company)</div>
+                    <div class="date">#(experience.date)</div>
+                    <p>#(experience.description)</p>
+                </div>
+            #endfor
+        </section>
+
+        <section class="section animated">
+            <h2>Portfolio</h2>
+            <div class="portfolio-grid">
+                #for(project in projects):
+                    <div class="portfolio-item">
+                        <div class="portfolio-image">Project Preview</div>
+                        <div class="portfolio-content">
+                            <h3>#(project.title)</h3>
+                            <p>#(project.description)</p>
+                        </div>
+                    </div>
+                #endfor
+            </div>
+        </section>
+
+        <section class="section animated">
+            <h2>Contact Me</h2>
+            <form id="contactForm" class="contact-form">
+                <div class="form-group">
+                    <input type="text" id="name" name="name" placeholder="Your Name" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" id="email" name="email" placeholder="Your Email" required>
+                </div>
+                <div class="form-group">
+                    <textarea id="message" name="message" placeholder="Your Message" rows="5" required></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Send Message</button>
+            </form>
+            <div id="contactResponse" class="contact-response" style="display: none;"></div>
+        </section>
+
+        <footer class="footer">
+            <div class="social-links">
+                <a href="#" class="social-link">📧</a>
+                <a href="#" class="social-link">💼</a>
+                <a href="#" class="social-link">🐦</a>
+                <a href="#" class="social-link">📘</a>
+            </div>
+            <p>&copy; 2025 #(name). All rights reserved.</p>
+            <p>Let's connect and create something amazing together!</p>
+        </footer>
+    #endexport
+#endextend

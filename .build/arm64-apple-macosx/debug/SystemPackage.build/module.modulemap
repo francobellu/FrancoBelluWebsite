@@ -1,0 +1,4 @@
+module SystemPackage {
+    header "/Users/francobellu/Documents/ClaudeProjects/claudeWebpage/FrancoBelluWebsite/.build/arm64-apple-macosx/debug/SystemPackage.build/SystemPackage-Swift.h"
+    requires objc
+}

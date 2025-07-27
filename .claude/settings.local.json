@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(lsof:*)",
+      "Bash(pkill:*)",
+      "Bash(./.build/debug/App)",
+      "Bash(swift run:*)",
+      "Bash(swift build)",
+      "Bash(timeout:*)",
+      "Bash(git init:*)"
+    ],
+    "deny": []
+  }
+}

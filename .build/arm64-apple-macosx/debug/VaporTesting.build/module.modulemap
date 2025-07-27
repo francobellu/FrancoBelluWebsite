@@ -1,0 +1,4 @@
+module VaporTesting {
+    header "/Users/francobellu/Documents/ClaudeProjects/claudeWebpage/FrancoBelluWebsite/.build/arm64-apple-macosx/debug/VaporTesting.build/VaporTesting-Swift.h"
+    requires objc
+}

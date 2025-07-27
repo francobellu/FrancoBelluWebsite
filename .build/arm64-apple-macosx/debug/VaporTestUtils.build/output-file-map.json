@@ -1,0 +1,29 @@
+{
+  "": {
+    "swift-dependencies": "/Users/francobellu/Documents/ClaudeProjects/claudeWebpage/FrancoBelluWebsite/.build/arm64-apple-macosx/debug/VaporTestUtils.build/master.swiftdeps"
+  },
+  "/Users/francobellu/Documents/ClaudeProjects/claudeWebpage/FrancoBelluWebsite/.build/checkouts/vapor/Sources/VaporTestUtils/TestingApplication.swift": {
+    "dependencies": "/Users/francobellu/Documents/ClaudeProjects/claudeWebpage/FrancoBelluWebsite/.build/arm64-apple-macosx/debug/VaporTestUtils.build/TestingApplication.d",
+    "object": "/Users/francobellu/Documents/ClaudeProjects/claudeWebpage/FrancoBelluWebsite/.build/arm64-apple-macosx/debug/VaporTestUtils.build/TestingApplication.swift.o",
+    "swiftmodule": "/Users/francobellu/Documents/ClaudeProjects/claudeWebpage/FrancoBelluWebsite/.build/arm64-apple-macosx/debug/VaporTestUtils.build/TestingApplication~partial.swiftmodule",
+    "swift-dependencies": "/Users/francobellu/Documents/ClaudeProjects/claudeWebpage/FrancoBelluWebsite/.build/arm64-apple-macosx/debug/VaporTestUtils.build/TestingApplication.swiftdeps"
+  },
+  "/Users/francobellu/Documents/ClaudeProjects/claudeWebpage/FrancoBelluWebsite/.build/checkouts/vapor/Sources/VaporTestUtils/TestingHTTPRequest.swift": {
+    "dependencies": "/Users/francobellu/Documents/ClaudeProjects/claudeWebpage/FrancoBelluWebsite/.build/arm64-apple-macosx/debug/VaporTestUtils.build/TestingHTTPRequest.d",
+    "object": "/Users/francobellu/Documents/ClaudeProjects/claudeWebpage/FrancoBelluWebsite/.build/arm64-apple-macosx/debug/VaporTestUtils.build/TestingHTTPRequest.swift.o",
+    "swiftmodule": "/Users/francobellu/Documents/ClaudeProjects/claudeWebpage/FrancoBelluWebsite/.build/arm64-apple-macosx/debug/VaporTestUtils.build/TestingHTTPRequest~partial.swiftmodule",
+    "swift-dependencies": "/Users/francobellu/Documents/ClaudeProjects/claudeWebpage/FrancoBelluWebsite/.build/arm64-apple-macosx/debug/VaporTestUtils.build/TestingHTTPRequest.swiftdeps"
+  },
+  "/Users/francobellu/Documents/ClaudeProjects/claudeWebpage/FrancoBelluWebsite/.build/checkouts/vapor/Sources/VaporTestUtils/TestingHTTPResponse.swift": {
+    "dependencies": "/Users/francobellu/Documents/ClaudeProjects/claudeWebpage/FrancoBelluWebsite/.build/arm64-apple-macosx/debug/VaporTestUtils.build/TestingHTTPResponse.d",
+    "object": "/Users/francobellu/Documents/ClaudeProjects/claudeWebpage/FrancoBelluWebsite/.build/arm64-apple-macosx/debug/VaporTestUtils.build/TestingHTTPResponse.swift.o",
+    "swiftmodule": "/Users/francobellu/Documents/ClaudeProjects/claudeWebpage/FrancoBelluWebsite/.build/arm64-apple-macosx/debug/VaporTestUtils.build/TestingHTTPResponse~partial.swiftmodule",
+    "swift-dependencies": "/Users/francobellu/Documents/ClaudeProjects/claudeWebpage/FrancoBelluWebsite/.build/arm64-apple-macosx/debug/VaporTestUtils.build/TestingHTTPResponse.swiftdeps"
+  },
+  "/Users/francobellu/Documents/ClaudeProjects/claudeWebpage/FrancoBelluWebsite/.build/checkouts/vapor/Sources/VaporTestUtils/Utilities.swift": {
+    "dependencies": "/Users/francobellu/Documents/ClaudeProjects/claudeWebpage/FrancoBelluWebsite/.build/arm64-apple-macosx/debug/VaporTestUtils.build/Utilities.d",
+    "object": "/Users/francobellu/Documents/ClaudeProjects/claudeWebpage/FrancoBelluWebsite/.build/arm64-apple-macosx/debug/VaporTestUtils.build/Utilities.swift.o",
+    "swiftmodule": "/Users/francobellu/Documents/ClaudeProjects/claudeWebpage/FrancoBelluWebsite/.build/arm64-apple-macosx/debug/VaporTestUtils.build/Utilities~partial.swiftmodule",
+    "swift-dependencies": "/Users/francobellu/Documents/ClaudeProjects/claudeWebpage/FrancoBelluWebsite/.build/arm64-apple-macosx/debug/VaporTestUtils.build/Utilities.swiftdeps"
+  }
+}

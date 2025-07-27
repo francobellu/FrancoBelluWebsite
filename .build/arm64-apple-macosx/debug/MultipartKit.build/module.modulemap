@@ -1,0 +1,4 @@
+module MultipartKit {
+    header "/Users/francobellu/Documents/ClaudeProjects/claudeWebpage/FrancoBelluWebsite/.build/arm64-apple-macosx/debug/MultipartKit.build/MultipartKit-Swift.h"
+    requires objc
+}

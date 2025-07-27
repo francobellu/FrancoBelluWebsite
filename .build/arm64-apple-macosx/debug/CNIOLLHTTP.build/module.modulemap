@@ -1,0 +1,4 @@
+module CNIOLLHTTP {
+    umbrella header "/Users/francobellu/Documents/ClaudeProjects/claudeWebpage/FrancoBelluWebsite/.build/checkouts/swift-nio/Sources/CNIOLLHTTP/include/CNIOLLHTTP.h"
+    export *
+}

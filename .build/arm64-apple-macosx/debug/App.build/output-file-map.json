@@ -1,0 +1,29 @@
+{
+  "": {
+    "swift-dependencies": "/Users/francobellu/Documents/ClaudeProjects/claudeWebpage/FrancoBelluWebsite/.build/arm64-apple-macosx/debug/App.build/master.swiftdeps"
+  },
+  "/Users/francobellu/Documents/ClaudeProjects/claudeWebpage/FrancoBelluWebsite/Sources/App/Models/HomeContext.swift": {
+    "dependencies": "/Users/francobellu/Documents/ClaudeProjects/claudeWebpage/FrancoBelluWebsite/.build/arm64-apple-macosx/debug/App.build/HomeContext.d",
+    "object": "/Users/francobellu/Documents/ClaudeProjects/claudeWebpage/FrancoBelluWebsite/.build/arm64-apple-macosx/debug/App.build/HomeContext.swift.o",
+    "swiftmodule": "/Users/francobellu/Documents/ClaudeProjects/claudeWebpage/FrancoBelluWebsite/.build/arm64-apple-macosx/debug/App.build/HomeContext~partial.swiftmodule",
+    "swift-dependencies": "/Users/francobellu/Documents/ClaudeProjects/claudeWebpage/FrancoBelluWebsite/.build/arm64-apple-macosx/debug/App.build/HomeContext.swiftdeps"
+  },
+  "/Users/francobellu/Documents/ClaudeProjects/claudeWebpage/FrancoBelluWebsite/Sources/App/configure.swift": {
+    "dependencies": "/Users/francobellu/Documents/ClaudeProjects/claudeWebpage/FrancoBelluWebsite/.build/arm64-apple-macosx/debug/App.build/configure.d",
+    "object": "/Users/francobellu/Documents/ClaudeProjects/claudeWebpage/FrancoBelluWebsite/.build/arm64-apple-macosx/debug/App.build/configure.swift.o",
+    "swiftmodule": "/Users/francobellu/Documents/ClaudeProjects/claudeWebpage/FrancoBelluWebsite/.build/arm64-apple-macosx/debug/App.build/configure~partial.swiftmodule",
+    "swift-dependencies": "/Users/francobellu/Documents/ClaudeProjects/claudeWebpage/FrancoBelluWebsite/.build/arm64-apple-macosx/debug/App.build/configure.swiftdeps"
+  },
+  "/Users/francobellu/Documents/ClaudeProjects/claudeWebpage/FrancoBelluWebsite/Sources/App/main.swift": {
+    "dependencies": "/Users/francobellu/Documents/ClaudeProjects/claudeWebpage/FrancoBelluWebsite/.build/arm64-apple-macosx/debug/App.build/main.d",
+    "object": "/Users/francobellu/Documents/ClaudeProjects/claudeWebpage/FrancoBelluWebsite/.build/arm64-apple-macosx/debug/App.build/main.swift.o",
+    "swiftmodule": "/Users/francobellu/Documents/ClaudeProjects/claudeWebpage/FrancoBelluWebsite/.build/arm64-apple-macosx/debug/App.build/main~partial.swiftmodule",
+    "swift-dependencies": "/Users/francobellu/Documents/ClaudeProjects/claudeWebpage/FrancoBelluWebsite/.build/arm64-apple-macosx/debug/App.build/main.swiftdeps"
+  },
+  "/Users/francobellu/Documents/ClaudeProjects/claudeWebpage/FrancoBelluWebsite/Sources/App/routes.swift": {
+    "dependencies": "/Users/francobellu/Documents/ClaudeProjects/claudeWebpage/FrancoBelluWebsite/.build/arm64-apple-macosx/debug/App.build/routes.d",
+    "object": "/Users/francobellu/Documents/ClaudeProjects/claudeWebpage/FrancoBelluWebsite/.build/arm64-apple-macosx/debug/App.build/routes.swift.o",
+    "swiftmodule": "/Users/francobellu/Documents/ClaudeProjects/claudeWebpage/FrancoBelluWebsite/.build/arm64-apple-macosx/debug/App.build/routes~partial.swiftmodule",
+    "swift-dependencies": "/Users/francobellu/Documents/ClaudeProjects/claudeWebpage/FrancoBelluWebsite/.build/arm64-apple-macosx/debug/App.build/routes.swiftdeps"
+  }
+}
