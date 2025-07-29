@@ -8,7 +8,14 @@
       "Bash(swift build)",
       "Bash(timeout:*)",
       "Bash(git init:*)",
-      "Bash(gh repo create:*)"
+      "Bash(gh repo create:*)",
+      "Bash(git push:*)",
+      "Bash(claude doctor)",
+      "Bash(npm cache clean:*)",
+      "Bash(npm uninstall:*)",
+      "Bash(rm:*)",
+      "Bash(npm install:*)",
+      "Bash(git add:*)"
     ],
     "deny": []
   }
