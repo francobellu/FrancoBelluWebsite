@@ -1,4 +1,4 @@
-// swift-tools-version:5.6
+// swift-tools-version:5.9
 import PackageDescription
 
 let package = Package(
@@ -16,6 +16,9 @@ let package = Package(
             dependencies: [
                 .product(name: "Vapor", package: "vapor"),
                 .product(name: "Leaf", package: "leaf")
+            ],
+            resources: [
+                .copy("Resources")
             ]
         ),
         .testTarget(name: "AppTests", dependencies: [
