@@ -6,13 +6,9 @@ public func configure(_ app: Application) throws {
     app.views.use(.leaf)
     app.leaf.cache.isEnabled = app.environment.isRelease
     
-    // Use bundle resources for views
-    if let bundlePath = Bundle.module.resourcePath {
-        app.directory.viewsDirectory = bundlePath + "/Resources/Views/"
-    }
-    
-    // Set public directory to project root for static files
-    app.directory.publicDirectory = "/Users/francobellu/Documents/ClaudeProjects/claudeWebpage/FrancoBelluWebsite/Public/"
+    // Use standard web server resource paths
+    app.directory.viewsDirectory = app.directory.workingDirectory + "Resources/Views/"
+    app.directory.publicDirectory = app.directory.workingDirectory + "Public/"
     
     // Debug: Print paths and check file existence
     let viewsPath = app.directory.viewsDirectory
