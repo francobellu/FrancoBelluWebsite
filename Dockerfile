@@ -1,4 +1,4 @@
-FROM swift:5.8-slim as build
+FROM swift:6.1-jammy as build
 
 RUN export DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true \
     && apt-get -q update \
@@ -16,7 +16,7 @@ RUN swift package resolve
 COPY . .
 RUN swift build -c release
 
-FROM swift:5.8-slim-runtime
+FROM swift:6.1-jammy-slim
 
 RUN export DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true && \
     apt-get -q update && apt-get -q install -y \

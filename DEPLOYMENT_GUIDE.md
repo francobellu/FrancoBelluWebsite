@@ -8,9 +8,9 @@ This guide covers deployment options and strategies for the Franco Bellu persona
 
 ### ✅ Deployment-Ready Configuration
 - **Framework**: Swift Vapor 4.76.0 with Leaf 4.2.4
-- **Swift Version**: 5.9+
-- **Platform**: macOS 12+
-- **Containerization**: Docker-ready with multi-stage Dockerfile
+- **Swift Version**: 6.1 (Docker images)
+- **Platform**: macOS 12+ (development), Ubuntu 22.04 (production)
+- **Containerization**: Docker-ready with multi-stage Dockerfile using Swift 6.1
 - **Static Assets**: Organized in `/Public` directory
 - **Templates**: Structured in `/Resources/Views`
 - **Architecture**: Clean, containerized server-side rendering
@@ -226,9 +226,12 @@ For the Franco Bellu website, **skip local Docker installation** because:
 ## Troubleshooting Common Issues
 
 ### Build Failures
-1. Check Swift version compatibility (currently 5.8 in Dockerfile)
+1. Check Swift version compatibility (currently 6.1 in Dockerfile)
 2. Verify all dependencies are properly declared in Package.swift
 3. Ensure Resources/ and Public/ directories are copied correctly
+4. If Swift 6.1 images not found, try alternative tags:
+   - `swift:6.1` and `swift:6.1-slim` (Ubuntu 24.04 Noble)
+   - `swift:6.1-jammy` and `swift:6.1-jammy-slim` (Ubuntu 22.04 Jammy)
 
 ### Runtime Issues
 1. Verify PORT environment variable configuration
