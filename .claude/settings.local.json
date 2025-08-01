@@ -16,7 +16,8 @@
       "Bash(rm:*)",
       "Bash(npm install:*)",
       "Bash(git add:*)",
-      "Bash(gh auth refresh:*)"
+      "Bash(gh auth refresh:*)",
+      "Bash(git fetch:*)"
     ],
     "deny": []
   }
