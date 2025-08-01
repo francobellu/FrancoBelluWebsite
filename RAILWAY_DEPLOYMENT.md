@@ -100,10 +100,14 @@ Once configured, Railway will automatically deploy when you:
 #### Swift Version Issues
 If build fails with Swift version errors:
 ```dockerfile
-# Update Dockerfile to use newer Swift version
-FROM swift:5.9-slim as build
-# ... rest of Dockerfile
-FROM swift:5.9-slim-runtime
+# Current configuration uses Swift 6.1 with Ubuntu 22.04 (Jammy)
+FROM swift:6.1-jammy as build
+# ... rest of Dockerfile  
+FROM swift:6.1-jammy-slim
+
+# Alternative: Use Ubuntu 24.04 (Noble) - latest
+FROM swift:6.1 as build
+FROM swift:6.1-slim
 ```
 
 #### Dependency Resolution
