@@ -2,12 +2,15 @@
 
 ## Project Overview
 
-This is a personal website built with **Swift Vapor** (backend) and **Leaf templating** (frontend), showcasing Franco Bellu's professional profile, skills, experience, and portfolio. The application follows a server-side rendering architecture with client-side enhancements.
+This is a personal website built with **Swift Vapor** (backend) and **Leaf templating** (frontend), showcasing Franco Bellu's professional profile, skills, experience, and portfolio. The application follows a **four-layer MVC architecture** with controller-service-model pattern, server-side rendering, client-side enhancements, and comprehensive error handling.
 
 ### Technology Stack
-- **Backend**: Swift Vapor 4.76.0 (web framework)
+- **Backend**: Swift Vapor 4.76.0 (web framework) 
+- **Architecture**: Four-layer MVC with Controller-Service pattern
 - **Templating**: Leaf 4.2.4 (server-side HTML templating)
 - **Frontend**: Vanilla JavaScript + CSS3
+- **Testing**: XCTVapor integration tests
+- **Error Handling**: Custom ErrorMiddleware with HTML/JSON responses
 - **Build System**: Swift Package Manager
 
 ## Project Structure
@@ -18,9 +21,25 @@ FrancoBelluWebsite/
 ├── Package.resolved             # Dependency lock file
 ├── Sources/
 │   └── App/
-│       ├── configure.swift      # App configuration & middleware setup
+│       ├── configure.swift      # App configuration & service registration
 │       ├── main.swift          # App entry point
-│       ├── routes.swift        # Route definitions & API endpoints
+│       ├── routes.swift        # Route definitions delegating to controllers
+│       ├── Controllers/        # HTTP request/response handling layer
+│       │   ├── BaseController.swift    # Common controller functionality
+│       │   ├── WebController.swift     # Home page rendering
+│       │   ├── ProfileController.swift # Profile API endpoints
+│       │   ├── ContactController.swift # Contact form processing  
+│       │   └── ContentController.swift # Skills/experiences/projects
+│       ├── Services/           # Business logic layer
+│       │   ├── ProfileService.swift    # Profile data management
+│       │   ├── ContactService.swift    # Contact form processing & validation
+│       │   ├── ContentService.swift    # Content management with business rules
+│       │   ├── BusinessError.swift     # Structured error handling
+│       │   ├── ValidationResult.swift  # Validation response types
+│       │   └── Protocols/             # Service protocol definitions
+│       │       ├── ProfileServiceProtocol.swift
+│       │       ├── ContactServiceProtocol.swift
+│       │       └── ContentServiceProtocol.swift
 │       └── Models/
 │           └── HomeContext.swift # Data models & contexts
 ├── Resources/
@@ -33,7 +52,9 @@ FrancoBelluWebsite/
 │   ├── styles/
 │   │   └── main.css           # Styling & animations
 │   └── images/                # Image assets
-└── Tests/                     # Test files
+└── Tests/                     # Integration test files
+    └── AppTests/
+        └── ErrorHandlingTests.swift  # 404 error handling validation
 ```
 
 ## Backend Components (Swift/Vapor)
@@ -42,6 +63,7 @@ FrancoBelluWebsite/
 - **Leaf Setup**: Configures Leaf templating engine with caching for production
 - **Directory Paths**: Sets up views and public directories for template and static file serving
 - **Middleware**: Registers FileMiddleware for serving static assets from `/Public`
+- **Service Registration**: Configures service layer with dependency injection using application storage
 - **Debug Logging**: Includes path verification and file existence checks
 
 ```swift
@@ -49,16 +71,70 @@ app.views.use(.leaf)
 app.leaf.cache.isEnabled = app.environment.isRelease
 app.directory.viewsDirectory = app.directory.workingDirectory + "Resources/Views/"
 app.directory.publicDirectory = app.directory.workingDirectory + "Public/"
+
+// Service registration
+let contentService = ContentService()
+app.storage[ContentServiceKey.self] = contentService
+let profileService = ProfileService(contentService: contentService)
+app.storage[ProfileServiceKey.self] = profileService
 ```
 
-### 2. Route Definitions (`routes.swift`)
-- **Home Route**: `GET /` - Renders home page using HomeContext data
-- **API Routes**: RESTful endpoints under `/api` prefix
-  - `GET /api/profile` - Returns profile data as JSON
-  - `GET /api/skills` - Returns skills array as JSON  
-  - `POST /api/contact` - Handles contact form submissions
+### 2. Controller Layer (`Sources/App/Controllers/`)
 
-### 3. Data Models (`HomeContext.swift`)
+**BaseController**: Provides common functionality for all controllers:
+- **Service Injection**: Helper methods to retrieve services from application storage
+- **Error Handling**: Converts BusinessError to appropriate HTTP responses
+- **Standardized Responses**: Consistent JSON response formatting
+- **Request Logging**: Structured logging for monitoring and debugging
+
+**WebController**: Handles web page routes:
+- **Home Page Rendering**: `renderHome()` - Server-side rendering with Leaf templates
+- **Error Pages**: Structured error page handling
+
+**ProfileController**: Manages profile-related API endpoints:
+- **Basic Profile**: `getProfile()` - Essential profile information
+- **Full Context**: `getProfileContext()` - Complete profile data
+- **Health Checks**: Service availability monitoring
+
+**ContactController**: Processes contact form operations:
+- **Form Submission**: `submitContact()` - Full validation and processing
+- **Validation Only**: `validateContact()` - Client-side validation support
+- **Statistics**: `getContactStats()` - Admin analytics
+
+**ContentController**: Handles content management:
+- **Skills API**: `getSkills()` - Professional skills with descriptions
+- **Experience API**: `getExperiences()` - Work history
+- **Projects API**: `getProjects()` - Portfolio showcase
+- **Content Summary**: Aggregated content overview
+
+### 3. Service Layer (`Sources/App/Services/`)
+
+**ProfileService**: Profile data management and context generation
+- Aggregates data from multiple sources
+- Handles concurrent data retrieval for performance
+- Provides both basic and comprehensive profile contexts
+
+**ContactService**: Advanced contact form processing
+- **Comprehensive Validation**: Field length, format, content validation
+- **Spam Detection**: Suspicious content and spam keyword filtering
+- **Priority Handling**: High-priority message detection and flagging
+- **Business Rules**: Configurable validation limits and processing logic
+
+**ContentService**: Content management with business logic
+- **Data Validation**: Ensures content integrity and completeness
+- **Business Rules**: Sorting, filtering, and presentation logic
+- **Performance Optimization**: Caching and efficient data retrieval
+
+### 4. Route Organization (`routes.swift`)
+- **Controller Delegation**: Routes delegate to appropriate controller methods
+- **Grouped Endpoints**: Logical organization by functionality
+- **Enhanced API**: Extended endpoints beyond basic CRUD
+  - Health monitoring at `/api/health`
+  - Service-specific health checks
+  - Admin endpoints for statistics and management
+- **Clean Separation**: HTTP routing separated from business logic
+
+### 5. Data Models (`HomeContext.swift`)
 **Primary Models:**
 - `HomeContext`: Main data structure containing all page content
 - `Skill`: Individual skill with name and description
@@ -205,12 +281,70 @@ Rendered HTML (<h1>Franco Bellu</h1>)
 Browser Display + JavaScript Enhancement
 ```
 
+## Error Handling Architecture
+
+### Custom ErrorMiddleware System
+The application implements sophisticated error handling that provides appropriate responses based on request type:
+
+- **Web Requests** (`/nonexistent`) → Styled HTML 404 pages with glassmorphism design
+- **API Requests** (`/api/nonexistent`) → JSON error responses with structured format
+
+### Error Response Types
+
+#### HTML 404 Pages (Web Requests)
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Page Not Found - Franco Bellu</title>
+    <style>/* Glassmorphism styling */</style>
+</head>
+<body>
+    <div class="error-container">
+        <h1>404</h1>
+        <p>Page Not Found</p>
+        <a href="/">Go Home</a>
+    </div>
+</body>
+</html>
+```
+
+#### JSON Error Responses (API Requests)
+```json
+{
+  "error": true,
+  "reason": "Endpoint not found",
+  "code": "NOT_FOUND"
+}
+```
+
+### Implementation Details
+- **Location**: `configure.swift` - `handleApplicationError()` function
+- **Trigger**: Custom `ErrorMiddleware` intercepts all unmatched routes
+- **Detection**: URL path prefix matching (`/api/` vs other paths)
+- **Logging**: All errors logged with request ID for debugging
+
+## Testing Architecture
+
+### Integration Test Suite
+Comprehensive test coverage validates the complete request/response cycle:
+
+- **ErrorHandlingTests.swift**: 12 test methods covering all error scenarios
+- **Test Coverage**: 404 handling, API validation, edge cases, response structure
+- **Framework**: XCTVapor for HTTP testing with real request simulation
+
+### Test Results
+```
+✔ Executed 12 tests, with 0 failures (0 unexpected) in 0.044 seconds
+```
+
 ## Key Integration Points
 
 1. **Static Asset Serving**: FileMiddleware serves `/Public` content at root URL paths
 2. **Template Resolution**: Vapor's view rendering system locates templates in `/Resources/Views`
 3. **JSON API**: Same data models serve both template rendering and API responses
 4. **Form Processing**: JavaScript form data matches Swift `ContactForm` structure
-5. **Error Handling**: Both client and server implement graceful error responses
+5. **Error Handling**: Smart request type detection with appropriate HTML/JSON responses
+6. **Testing Integration**: XCTVapor provides full-stack request testing capabilities
 
-This architecture provides a fast, SEO-friendly server-rendered experience enhanced with modern client-side interactions.
+This architecture provides a fast, SEO-friendly server-rendered experience enhanced with modern client-side interactions and robust error handling.

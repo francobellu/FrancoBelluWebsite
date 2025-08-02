@@ -1,6 +1,7 @@
 import Vapor
 
 /// Configures all application routes including web pages and API endpoints.
+/// Uses controller-based architecture for better organization and testability.
 /// - Parameter app: The Vapor application instance to configure routes for
 func routes(_ app: Application) throws {
     try configureWebRoutes(app)
@@ -27,85 +28,130 @@ struct ContactServiceKey: StorageKey {
 // MARK: - Web Routes
 
 /// Configures web page routes that return rendered HTML views.
+/// Uses WebController for clean separation of concerns.
 /// - Parameter app: The Vapor application instance
 private func configureWebRoutes(_ app: Application) throws {
-    app.get { request async throws -> View in
-        guard let profileService = request.application.storage[ProfileServiceKey.self] else {
-            throw Abort(.internalServerError, reason: "ProfileService not configured")
-        }
-        let homeContext = try await profileService.getHomeContext()
-        
-        // Log context for debugging
-        app.logger.info("Rendering home template for: \(homeContext.personalInfo.name)")
-        
-        return try await request.view.render("home", homeContext)
-    }
+    let webController = WebController()
+    
+    // Home page
+    app.get(use: webController.renderHome)
+    
+    // Error handling routes
+    app.get("error", use: webController.renderError)
 }
 
 // MARK: - API Routes
 
 /// Configures API endpoints that return JSON responses.
+/// Uses dedicated controllers for each domain area.
 /// - Parameter app: The Vapor application instance
 private func configureAPIRoutes(_ app: Application) throws {
-    app.group("api") { apiGroup in
-        configureProfileRoutes(apiGroup)
-        configureSkillsRoutes(apiGroup)
-        configureContactRoutes(apiGroup)
+    try app.group("api") { apiGroup in
+        try configureProfileRoutes(apiGroup)
+        try configureContentRoutes(apiGroup)
+        try configureContactRoutes(apiGroup)
+        try configureHealthRoutes(apiGroup)
     }
 }
 
 /// Configures profile-related API endpoints.
 /// - Parameter apiGroup: The API route group
-private func configureProfileRoutes(_ apiGroup: RoutesBuilder) {
-    apiGroup.get("profile") { request async throws -> ProfileResponse in
-        guard let profileService = request.application.storage[ProfileServiceKey.self] else {
-            throw Abort(.internalServerError, reason: "ProfileService not configured")
-        }
-        return try await profileService.getProfileResponse()
+/// - Throws: Configuration errors
+private func configureProfileRoutes(_ apiGroup: RoutesBuilder) throws {
+    let profileController = ProfileController()
+    
+    apiGroup.group("profile") { profileGroup in
+        // GET /api/profile - Basic profile information
+        profileGroup.get(use: profileController.getProfile)
+        
+        // GET /api/profile/context - Complete profile context
+        profileGroup.get("context", use: profileController.getProfileContext)
+        
+        // GET /api/profile/health - Health check
+        profileGroup.get("health", use: profileController.healthCheck)
     }
 }
 
-/// Configures skills-related API endpoints.
+/// Configures content-related API endpoints (skills, experiences, projects).
 /// - Parameter apiGroup: The API route group
-private func configureSkillsRoutes(_ apiGroup: RoutesBuilder) {
-    apiGroup.get("skills") { request async throws -> [Skill] in
-        guard let contentService = request.application.storage[ContentServiceKey.self] else {
-            throw Abort(.internalServerError, reason: "ContentService not configured")
-        }
-        return try await contentService.getSkills()
-    }
+/// - Throws: Configuration errors
+private func configureContentRoutes(_ apiGroup: RoutesBuilder) throws {
+    let contentController = ContentController()
+    
+    // Skills endpoints
+    apiGroup.get("skills", use: contentController.getSkills)
+    
+    // Experiences endpoints  
+    apiGroup.get("experiences", use: contentController.getExperiences)
+    
+    // Projects endpoints
+    apiGroup.get("projects", use: contentController.getProjects)
+    
+    // About text endpoint
+    apiGroup.get("about", use: contentController.getAboutText)
+    
+    // Content summary endpoint
+    apiGroup.get("content", "summary", use: contentController.getContentSummary)
+    
+    // Health check
+    apiGroup.get("content", "health", use: contentController.healthCheck)
 }
 
 /// Configures contact form API endpoints.
 /// - Parameter apiGroup: The API route group
-private func configureContactRoutes(_ apiGroup: RoutesBuilder) {
-    apiGroup.post("contact") { request async throws -> ContactResponse in
-        do {
-            let contactForm = try request.content.decode(ContactForm.self)
-            guard let contactService = request.application.storage[ContactServiceKey.self] else {
-                throw Abort(.internalServerError, reason: "ContactService not configured")
-            }
+/// - Throws: Configuration errors
+private func configureContactRoutes(_ apiGroup: RoutesBuilder) throws {
+    let contactController = ContactController()
+    
+    apiGroup.group("contact") { contactGroup in
+        // POST /api/contact - Submit contact form
+        contactGroup.post(use: contactController.submitContact)
+        
+        // POST /api/contact/validate - Validate contact form without submitting
+        contactGroup.post("validate", use: contactController.validateContact)
+        
+        // GET /api/contact/stats - Contact statistics (for admin)
+        contactGroup.get("stats", use: contactController.getContactStats)
+        
+        // GET /api/contact/health - Health check
+        contactGroup.get("health", use: contactController.healthCheck)
+    }
+}
+
+/// Configures health check and monitoring endpoints.
+/// - Parameter apiGroup: The API route group  
+/// - Throws: Configuration errors
+private func configureHealthRoutes(_ apiGroup: RoutesBuilder) throws {
+    apiGroup.group("health") { healthGroup in
+        // GET /api/health - Overall application health
+        healthGroup.get { request async throws -> ApplicationHealthResponse in
+            let profileController = ProfileController()
+            let contactController = ContactController()
+            let contentController = ContentController()
             
-            return try await contactService.processContactSubmission(contactForm, logger: request.logger)
+            // Check all services concurrently
+            async let profileHealth = profileController.healthCheck(request: request)
+            async let contactHealth = contactController.healthCheck(request: request)
+            async let contentHealth = contentController.healthCheck(request: request)
             
-        } catch let decodingError as DecodingError {
-            request.logger.error("Failed to decode contact form: \(decodingError)")
-            return ContactResponse(
-                isSuccessful: false,
-                responseMessage: "Invalid form data. Please check your input and try again."
-            )
-        } catch let businessError as BusinessError {
-            request.logger.error("Business logic error: \(businessError.localizedDescription)")
-            return ContactResponse(
-                isSuccessful: false,
-                responseMessage: businessError.localizedDescription
-            )
-        } catch {
-            request.logger.error("Unexpected error processing contact form: \(error)")
-            return ContactResponse(
-                isSuccessful: false,
-                responseMessage: "An unexpected error occurred. Please try again later."
+            let healthChecks = try await [profileHealth, contactHealth, contentHealth]
+            let allHealthy = healthChecks.allSatisfy { $0.status == "healthy" }
+            
+            return ApplicationHealthResponse(
+                status: allHealthy ? "healthy" : "degraded",
+                services: healthChecks,
+                timestamp: Date().timeIntervalSince1970
             )
         }
     }
 }
+
+// MARK: - Supporting Models
+
+/// Overall application health response.
+struct ApplicationHealthResponse: Content {
+    let status: String
+    let services: [HealthCheckResponse]
+    let timestamp: TimeInterval
+}
+

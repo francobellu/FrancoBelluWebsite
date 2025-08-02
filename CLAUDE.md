@@ -19,6 +19,9 @@ swift run
 # Run tests
 swift test
 
+# Run specific test suite
+swift test --filter ErrorHandlingTests
+
 # Build for release
 swift build -c release
 
@@ -50,39 +53,89 @@ railway logs
 railway variables
 ```
 
+## Testing
+
+### Test Structure
+The project includes comprehensive integration tests that validate the controller layer and error handling functionality.
+
+### Test Suites
+- **ErrorHandlingTests**: Complete 404 error handling validation
+  - Web requests return styled HTML 404 pages
+  - API requests return JSON error responses  
+  - All existing routes continue to work
+  - Edge cases and response structure validation
+
+### Running Tests
+```bash
+# Run all tests
+swift test
+
+# Run specific test suite
+swift test --filter ErrorHandlingTests
+
+# Run with verbose output
+swift test --verbose
+```
+
+### Test Coverage
+- ✅ 404 error handling (HTML vs JSON responses)
+- ✅ Controller layer functionality
+- ✅ API endpoint validation
+- ✅ Error response structure validation
+- ✅ Edge case handling
+
 ## Architecture & Code Organization
 
-### Three-Layer Architecture
+### Four-Layer MVC Architecture
 1. **Swift Vapor Backend**: Server logic, routing, data models
-2. **Leaf Templates**: Server-side HTML rendering with dynamic content  
-3. **JavaScript/CSS Frontend**: Client-side enhancements and animations
+2. **Controller Layer**: HTTP request/response handling, service orchestration
+3. **Service Layer**: Business logic, validation, data processing
+4. **Leaf Templates + JavaScript/CSS**: Server-side rendering with client-side enhancements
 
 ### Clean Code Implementation
 The codebase follows Swift clean code principles documented in `SWIFT_CLEAN_CODE_PRINCIPLES.md`:
 
-- **Single Responsibility**: Each struct/function has one clear purpose
+- **Single Responsibility**: Each class/struct/function has one clear purpose
 - **Meaningful Names**: Intention-revealing names (e.g., `personalInfo.professionalTitle` not `title`)
-- **Modular Organization**: Route functions separated by concern (web, API, contact)
-- **Documentation**: Comprehensive docs for all public APIs
-- **Error Handling**: Proper validation and logging throughout
+- **Controller-Service Pattern**: Clean separation between HTTP handling and business logic
+- **Protocol-Based Design**: All services implement protocols for testability
+- **Comprehensive Documentation**: All public APIs thoroughly documented
+- **Structured Error Handling**: BusinessError and ValidationResult types throughout
 
 ### Key Architectural Patterns
 
-#### Data Flow
+#### Enhanced Data Flow
 ```
-Swift Models (HomeContext) → Leaf Templates → HTML → JavaScript Enhancement
-                          ↘ JSON APIs → AJAX calls → UI Updates
+HTTP Request → Controllers → Services → Models → Database/Storage
+                     ↓
+            Leaf Templates/JSON APIs
+                     ↓
+          HTML/JavaScript Enhancement
 ```
 
+#### Controller Layer (`Sources/App/Controllers/`)
+- **BaseController**: Common functionality, service injection, error handling
+- **WebController**: Home page rendering and web routes
+- **ProfileController**: Profile data API endpoints (`/api/profile`)
+- **ContactController**: Contact form processing (`/api/contact`)
+- **ContentController**: Skills, experiences, projects (`/api/skills`, `/api/experiences`)
+
+#### Service Layer (`Sources/App/Services/`)
+- **ProfileService**: Profile data retrieval and home context generation
+- **ContactService**: Contact form validation, processing, spam detection
+- **ContentService**: Skills/experiences/projects with business logic validation
+- **Protocol-Based**: All services implement protocols for dependency injection
+
 #### Route Organization (`Sources/App/routes.swift`)
-- **Modular Functions**: `configureWebRoutes()`, `configureAPIRoutes()`, `configureContactRoutes()`
-- **Clean Separation**: Web routes return HTML views, API routes return JSON
-- **Error Handling**: Comprehensive validation and logging in contact form processing
+- **Controller-Based**: Routes delegate to controller methods
+- **Grouped Endpoints**: Related functionality grouped logically
+- **Health Check System**: Comprehensive service monitoring at `/api/health`
+- **Enhanced API**: Extended endpoints with validation and admin features
 
 #### Model Structure (`Sources/App/Models/HomeContext.swift`)
 - **HomeContext**: Main data container with nested models
 - **PersonalInfo**: Contact details extracted into separate struct
-- **Validation**: `ContactForm.isValid()` with client-server consistency
+- **Validation**: Enhanced validation with `ValidationResult` and `BusinessError`
 - **Factory Methods**: `createDefault()` methods for all models
 
 ## Content Management
@@ -119,19 +172,39 @@ Project.createDefaultProjects()
 
 ## API Endpoints & Integration
 
-### Available Endpoints
-- `GET /` - Main website (server-rendered HTML)
-- `GET /api/profile` - Personal information (JSON)
-- `GET /api/skills` - Skills array (JSON)  
-- `POST /api/contact` - Contact form submission (JSON)
+### Core Web Endpoints
+- `GET /` - Main website (server-rendered HTML via WebController)
 
-### Full-Stack Contact Form Example
-Demonstrates complete integration pattern:
+### Profile API Endpoints
+- `GET /api/profile` - Basic personal information (JSON)
+- `GET /api/profile/context` - Complete profile context with all data
+- `GET /api/profile/health` - Profile service health check
+
+### Content API Endpoints
+- `GET /api/skills` - Skills array with descriptions
+- `GET /api/experiences` - Work experiences with details  
+- `GET /api/projects` - Portfolio projects with links
+- `GET /api/about` - About section text content
+- `GET /api/content/summary` - Content overview with counts
+- `GET /api/content/health` - Content service health check
+
+### Contact API Endpoints
+- `POST /api/contact` - Submit contact form with validation
+- `POST /api/contact/validate` - Validate form data without submitting
+- `GET /api/contact/stats` - Contact submission statistics (admin)
+- `GET /api/contact/health` - Contact service health check
+
+### System Endpoints
+- `GET /api/health` - Overall application health status
+
+### Enhanced Controller-Service Integration
+Demonstrates complete MVC pattern with clean separation:
 
 1. **HTML Form** (`home.leaf`): Proper field names matching Swift model
 2. **JavaScript** (`main.js`): AJAX submission with validation and error handling
-3. **Swift Backend** (`routes.swift`): Validation, logging, structured response
-4. **Data Model** (`HomeContext.swift`): `ContactForm` with `isValid()` method
+3. **Controller Layer** (`ContactController`): HTTP handling, request/response processing
+4. **Service Layer** (`ContactService`): Business logic, validation, spam detection
+5. **Data Models** (`HomeContext.swift`): Structured data with validation logic
 
 ## Deployment Configuration
 
