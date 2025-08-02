@@ -8,12 +8,30 @@ final class ErrorHandlingTests: XCTestCase {
     var app: Application!
     
     override func setUpWithError() throws {
-        app = Application(.testing)
-        try configure(app)
+        let expectation = XCTestExpectation(description: "App setup")
+        Task {
+            do {
+                app = try await Application.make(.testing)
+                try await configure(app)
+                expectation.fulfill()
+            } catch {
+                XCTFail("Failed to setup app: \(error)")
+            }
+        }
+        wait(for: [expectation], timeout: 10.0)
     }
     
     override func tearDownWithError() throws {
-        app.shutdown()
+        let expectation = XCTestExpectation(description: "App shutdown")
+        Task {
+            do {
+                try await app.asyncShutdown()
+                expectation.fulfill()
+            } catch {
+                XCTFail("Failed to shutdown app: \(error)")
+            }
+        }
+        wait(for: [expectation], timeout: 10.0)
     }
     
     // MARK: - Web Request 404 Tests
