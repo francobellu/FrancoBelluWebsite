@@ -26,6 +26,31 @@ public func configure(_ app: Application) throws {
     // Serve static files
     app.middleware.use(FileMiddleware(publicDirectory: app.directory.publicDirectory))
     
+    // Register services for dependency injection
+    try configureServices(app)
+    
     // Register routes
     try routes(app)
 }
+
+/// Configures and registers all application services.
+/// - Parameter app: The Vapor application instance
+private func configureServices(_ app: Application) throws {
+    // Create services and store them in app.storage for access in routes
+    // This is a simple dependency injection approach for this application
+    
+    // Content service - handles skills, experiences, projects, about text
+    let contentService = ContentService()
+    app.storage[ContentServiceKey.self] = contentService
+    
+    // Profile service - depends on content service
+    let profileService = ProfileService(contentService: contentService)
+    app.storage[ProfileServiceKey.self] = profileService
+    
+    // Contact service - handles contact form processing and validation
+    let contactService = ContactService()
+    app.storage[ContactServiceKey.self] = contactService
+    
+    app.logger.info("Services configured successfully")
+}
+
