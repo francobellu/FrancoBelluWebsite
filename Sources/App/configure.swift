@@ -1,7 +1,7 @@
 import Vapor
 import Leaf
 
-public func configure(_ app: Application) throws {
+public func configure(_ app: Application) async throws {
     // Configure Leaf
     app.views.use(.leaf)
     app.leaf.cache.isEnabled = app.environment.isRelease

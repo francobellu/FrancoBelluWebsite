@@ -171,8 +171,13 @@ final class ContactService: ContactServiceProtocol {
     /// - Returns: Boolean indicating if email format is valid
     private func isValidEmailFormat(_ email: String) -> Bool {
         let emailRegex = #"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"#
-        let emailPredicate = NSPredicate(format: "SELF MATCHES %@", emailRegex)
-        return emailPredicate.evaluate(with: email)
+        do {
+            let regex = try NSRegularExpression(pattern: emailRegex)
+            let range = NSRange(location: 0, length: email.utf16.count)
+            return regex.firstMatch(in: email, options: [], range: range) != nil
+        } catch {
+            return false
+        }
     }
     
     /// Checks if content contains suspicious patterns that might indicate spam or malicious input.

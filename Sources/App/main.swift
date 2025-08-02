@@ -2,7 +2,9 @@ import Vapor
 
 var env = try Environment.detect()
 try LoggingSystem.bootstrap(from: &env)
-let app = Application(env)
-defer { app.shutdown() }
-try configure(app)
-try app.run()
+
+let app = try await Application.make(env)
+defer { Task { try await app.asyncShutdown() } }
+
+try await configure(app)
+try await app.execute()
