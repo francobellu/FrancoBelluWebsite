@@ -19,7 +19,8 @@
       "Bash(gh auth refresh:*)",
       "Bash(git fetch:*)",
       "Bash(find:*)",
-      "Bash(swift build:*)"
+      "Bash(swift build:*)",
+      "Bash(true)"
     ],
     "deny": []
   }
